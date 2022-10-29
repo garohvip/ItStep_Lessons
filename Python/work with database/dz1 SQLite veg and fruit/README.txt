@@ -1,0 +1,1 @@
+Делал в DB Browser (SQLite)

@@ -1,0 +1,26 @@
+{
+  "FA232312513DSGT": {
+    "Model": "BMW 920",
+    "Color": "red",
+    "Age": "2020",
+    "Price": "50000$",
+    "Capacity": "5.5L",
+    "Producer": "Germany"
+  },
+  "IGH63264IKK24H2JH4": {
+    "Model": "Reno 20",
+    "Color": "red",
+    "Age": "2018",
+    "Price": "45000$",
+    "Capacity": "5.5L",
+    "Producer": "France"
+  },
+  "GJ35J89GJ853JG9J2G": {
+    "Model": "Toyota camry",
+    "Color": "green",
+    "Age": "1999",
+    "Price": "10000$",
+    "Capacity": "3.6L",
+    "Producer": "Japan"
+  }
+}

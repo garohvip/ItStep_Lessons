@@ -1,0 +1,18 @@
+{
+  "IGH63264IKK24H2JH4": {
+    "Model": "Reno 20",
+    "Color": "green",
+    "Age": "2018",
+    "Price": "45000",
+    "Capacity": "5.0",
+    "Producer": "France"
+  },
+  "FA232312513DSGT": {
+    "Model": "BMW 920",
+    "Color": "red",
+    "Age": "2020",
+    "Price": "50000",
+    "Capacity": "5.5",
+    "Producer": "Germany"
+  }
+}
