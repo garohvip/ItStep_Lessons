@@ -45,14 +45,15 @@ def output_info_name(create_table):
 
 
 with open("pass.txt", "r") as file:
-    pw = file.read()
+    pw = file.readlines()
+pw = [line.rstrip() for line in pw]
 try:
     connection = pymysql.connect(
-        host="localhost",
-        port=3306,
-        user="root",
-        password=pw,
-        database="sales",
+        host=pw[0],
+        port=int(pw[1]),
+        user=pw[2],
+        password=pw[3],
+        database=pw[4],
         cursorclass=pymysql.cursors.DictCursor
     )
     print("Welcome to the database")

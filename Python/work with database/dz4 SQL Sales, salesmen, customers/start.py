@@ -1,15 +1,16 @@
 import pymysql
-from easygui import *
 
 with open("pass.txt", "r") as file:
-    pw = file.read()
+    pw = file.readlines()
+pw = [line.rstrip() for line in pw]
+
 try:
     connection = pymysql.connect(
-        host="localhost",
-        port=3306,
-        user="root",
-        password=pw,
-        database="sales",
+        host=pw[0],
+        port=int(pw[1]),
+        user=pw[2],
+        password=pw[3],
+        database=pw[4],
         cursorclass=pymysql.cursors.DictCursor
     )
     try:
@@ -24,15 +25,7 @@ try:
                            "FOREIGN KEY (idSalesmen) REFERENCES Salesmen(id), " \
                            "FOREIGN KEY (phoneCustomers) REFERENCES Customers(phone));"
             cursor.execute(create_table)
-        # with connection.cursor() as cursor:
-        #     insert = "INSERT INTO `Salesmen` (name, phone) VALUES ('Sasha', '380961234567'), ('Max', '380689876543');"
-        #     cursor.execute(insert)
-        #     insert = "INSERT INTO `Customers` (phone, name) VALUES ('380989999999', 'Kolya'), ('380981111111', 'Andrey');"
-        #     cursor.execute(insert)
-        #     insert = "INSERT INTO `Sales` (idSalesmen, phoneCustomers, nameProduct, summa) VALUES ('2', '380989999999', 'Door', 1000);"
-        #     cursor.execute(insert)
-        #     connection.commit()
     finally:
         connection.close()
-except Exception as ex:
-    print(ex)
+except:
+    print("Error")
