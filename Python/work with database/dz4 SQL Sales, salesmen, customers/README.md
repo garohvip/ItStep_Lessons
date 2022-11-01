@@ -1,5 +1,4 @@
 # PYTHON DEVELOPER HOMEWORK
-____
 ## Условие задачи:
 
 ### Создать базу данных под названием `Sales` с тремя таблицами:
@@ -28,25 +27,27 @@ ____
 ```
 CREATE SCHEMA `name`;
 ```
-![Code](file:///C:/Users/solando/Desktop/ItStep_Lessons/Screenshot_1.png "Code")
+![Code](https://github.com/garohvip/ItStep_Lessons/blob/main/Python/for%20readme/Screenshot_1.png "Code")
 
 Где `name` - название вашей БД
 
 После чего нажать на :zap: (молния)
 
-![ZAP](file:///C:/Users/solando/Desktop/ItStep_Lessons/Screenshot_2.png "ZAP")
+![ZAP](https://github.com/garohvip/ItStep_Lessons/blob/main/Python/for%20readme/Screenshot_2.png "ZAP")
 
 И должна появится внизу такая надпись c :white_check_mark: (зеленым кружочком и белой галочкой)
 
-![Green mark](file:///C:/Users/solando/Desktop/ItStep_Lessons/Screenshot_3.png "Green mark")
+![Green mark](https://github.com/garohvip/ItStep_Lessons/blob/main/Python/for%20readme/Screenshot_3.png "Green mark")
 
 Далее слева есть список ваших БД. Для отображения созданной БД нужно ее обновить нажав: :arrows_counterclockwise: (обновить)
 
-![Reload](file:///C:/Users/solando/Desktop/ItStep_Lessons/Screenshot_4.png "Reload")
+![Reload](https://github.com/garohvip/ItStep_Lessons/blob/main/Python/for%20readme/Screenshot_4.png "Reload")
 
 Вот и наша БД
 
-![Result](file:///C:/Users/solando/Desktop/ItStep_Lessons/Screenshot_5.png "Result")
+![Result](https://github.com/garohvip/ItStep_Lessons/blob/main/Python/for%20readme/Screenshot_5.png "Result")
+
+____
 
 ### 2. Ввод данных для работы с БД
 
@@ -55,7 +56,7 @@ CREATE SCHEMA `name`;
 
 Эту информацию Вы видите каждый раз, когда выбираете свой `connect`
 
-![Connect](file:///C:/Users/solando/Desktop/ItStep_Lessons/Screenshot_6.png "Connect")
+![Connect](https://github.com/garohvip/ItStep_Lessons/blob/main/Python/for%20readme/Screenshot_6.png "Connect")
 
 Эти данные нужно внести в текстовый файл `pass.txt` в таком порядке:
 
@@ -68,7 +69,9 @@ CREATE SCHEMA `name`;
 
 **Пример:**
 
-![Example](file:///C:/Users/solando/Desktop/ItStep_Lessons/Screenshot_7.png "Example")
+![Example](https://github.com/garohvip/ItStep_Lessons/blob/main/Python/for%20readme/Screenshot_7.png "Example")
+
+____
 
 ### 3. Запуск
 
