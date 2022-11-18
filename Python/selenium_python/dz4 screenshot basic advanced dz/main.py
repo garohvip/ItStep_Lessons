@@ -1,0 +1,27 @@
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+
+agent_ghost = webdriver.Chrome(executable_path="C:\\Users\\solando\\Desktop\\ItStep_Lessons\\Python\\selenium_python\\dz4\\chromedriver.exe")
+agent_ghost.get(url="https://mystat.itstep.org/")
+time.sleep(2)
+agent_ghost.maximize_window()
+login = agent_ghost.find_element(By.CSS_SELECTOR, "#username")
+login.send_keys("PlXsh_se27")
+password = agent_ghost.find_element(By.CSS_SELECTOR, "#password")
+password.send_keys("zK6218Hc")
+button = agent_ghost.find_element(By.CLASS_NAME, "login-action")
+button.click()
+time.sleep(3)
+link_hw = agent_ghost.find_element(By.CLASS_NAME, "homeworks-item a")
+agent_ghost.get(url=link_hw.get_attribute("href"))
+time.sleep(3)
+agent_ghost.save_screenshot("screenshot bas.png")
+time.sleep(1)
+send = agent_ghost.find_element(By.XPATH, "/html/body/mystat/ng-component/ng-component/div/div[3]/div[2]/ng-component/div/div[1]/div[1]/ng-select[1]/div/div/div[3]")
+send.click()
+button = agent_ghost.find_element(By.XPATH, '/html/body/mystat/ng-component/ng-component/div/div[3]/div[2]/ng-component/div/div[1]/div[1]/ng-select[1]/ng-dropdown-panel/div/div[2]/div[3]')
+button.click()
+time.sleep(3)
+agent_ghost.save_screenshot("screenshot adv.png")
+agent_ghost.close()
