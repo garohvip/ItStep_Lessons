@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+    <meta content="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+        }
+        body {
+            background-color: #0017DA;
+            color: #FF5757;
+            font-size: 50px;
+            font-weight: bold;
+        }
+        ul {
+            background-color: #00BDDA;
+        }
+        a {
+            color: black;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <ul>
+        {% for url, name in page_list %}
+        <li><a href="http://127.0.0.1:8000/{{url}}">{{name}}</a></li>
+        {% endfor %}
+    </ul>
+<!--    {{ text }}-->
+<!--    <ul>-->
+<!--        <li>-->
+<!--            <a href='http://127.0.0.1:8000/news/'>Новости</a>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--            <a href='http://127.0.0.1:8000/management/'>Управленцы компанией</a>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--            <a href='http://127.0.0.1:8000/faq/'>Информация про компанию</a>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--            <a href='http://127.0.0.1:8000/contact/'>Контакты</a>-->
+<!--        </li>-->
+<!--    </ul>-->
+</div>
+</body>
+</html>
