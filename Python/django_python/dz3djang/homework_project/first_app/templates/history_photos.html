@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+    <meta content="UTF-8">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+        }
+        body {
+            background-color: #750796;
+            color: #E0ED18;
+            font-size: 30px;
+            font-weight: bold;
+        }
+        ul {
+            background-color: #AA3AB4;
+        }
+        li {
+            list-style-type: none;
+        }
+        a {
+            color: black;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <ul>
+        {% for url, img, name in page_list %}
+        <li><h2>{{name}}</h2><br><a href="https://ru.wikipedia.org/wiki/{{url}}"><img src="https://commons.wikimedia.org/wiki/{{img}}"></a></li>
+        {% endfor %}
+    </ul>
+<!--    {{ text }}-->
+<!--    <ul>-->
+<!--        <li>-->
+<!--            <a href='http://127.0.0.1:8000/news/'>Новости</a>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--            <a href='http://127.0.0.1:8000/management/'>Управленцы компанией</a>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--            <a href='http://127.0.0.1:8000/faq/'>Информация про компанию</a>-->
+<!--        </li>-->
+<!--        <li>-->
+<!--            <a href='http://127.0.0.1:8000/contact/'>Контакты</a>-->
+<!--        </li>-->
+<!--    </ul>-->
+</div>
+</body>
+</html>
