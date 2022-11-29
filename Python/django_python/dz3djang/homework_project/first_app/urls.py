@@ -19,6 +19,7 @@ urlpatterns = [
     re_path(r'^news/(?P<where>\w*)?/?$', news),
     re_path(r'^gosduma/(?P<who>\w*)?/?$', gosduma),
     re_path(r'^history/(?P<info>\w*)?/?$', history),
+    re_path(r'^history/(?P<cities>\w*)?/(?P<info>\w*)?/?$', history_cities),
     # path('<str:table_sql>/', check_views),
     # path('<str:table_sql>/add=<str:nameProduct>/', add_views),
     # path('<str:table_sql>/del=<str:nameProduct>/', del_views),
