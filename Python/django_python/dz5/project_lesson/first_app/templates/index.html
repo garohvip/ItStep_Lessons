@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--    {% for element in questions %}-->
+<!--        <ol>-->
+<!--            {% if element.id|divisibleby:"2" %}-->
+<!--            <li>{{ element.id }}</li>-->
+<!--            <li>{{ element.author }}</li>-->
+<!--            <li>{{ element.question_text|title }}</li>-->
+<!--            <li>{{ element.date }}</li>-->
+<!--            {% endif %}-->
+<!--        </ol>-->
+<!--    {% endfor %}-->
+
+    {% for element in questions|dictsort:"author" %}
+    <ol>
+        {% if element.id|divisibleby:"2" %}
+        <li>{{ element.id }}</li>
+        <li>{{ element.author|title }}</li>
+        <li>{{ element.question_text }}</li>
+        <li>{{ element.date }}</li>
+        {% endif %}
+    </ol>
+    {% endfor %}
+</body>
+</html>
