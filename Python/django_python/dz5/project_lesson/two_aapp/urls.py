@@ -3,4 +3,5 @@ from two_aapp.views import dictsort, images
 
 urlpatterns = [
     path('books/', images),
+    # path('products/', products)
 ]

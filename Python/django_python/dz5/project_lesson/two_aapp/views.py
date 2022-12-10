@@ -43,3 +43,8 @@ def images(request):
     except Exception as ex:
         print(ex)
     return render(template_name='index1.html', request=request, context={'img':image_64})
+
+
+# def products(request):
+#     content =
+#     return render(template_name="index2.html", request=request, context={"products_list": content})
