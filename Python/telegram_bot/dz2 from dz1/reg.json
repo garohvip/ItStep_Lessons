@@ -1,0 +1,22 @@
+{
+  "musicbot": [
+    {
+      "login": "123",
+      "password": "asdf",
+      "name": "sa",
+      "lvl_right": 1,
+      "in_online": false,
+      "user_id": 0,
+      "time_in": 341
+    },
+    {
+      "login": "garohvip",
+      "password": "qwer",
+      "name": "Garoh",
+      "lvl_right": 10,
+      "in_online": true,
+      "user_id": 5881762568,
+      "time_in": 1671050592.3243706
+    }
+  ]
+}

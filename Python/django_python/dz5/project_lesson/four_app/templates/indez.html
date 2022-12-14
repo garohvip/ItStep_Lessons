@@ -5,10 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-    {% for i in products_list %}
-    {{i.name}}<br />
-    {{i.description}}<br />
-    {{i.price}}<br /><br />
+    {% for i in exam_list %}
+        <img src="data:image/jpg;base64,{{ i.image_base64 }}">
     {% endfor %}
 </body>
 </html>

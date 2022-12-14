@@ -42,7 +42,7 @@ def images(request):
             image_64 = cursor.fetchall()
     except Exception as ex:
         print(ex)
-    return render(template_name='index1.html', request=request, context={'img':image_64})
+    return render(template_name='index1.html', request=request, context={'img': image_64})
 
 
 # def products(request):

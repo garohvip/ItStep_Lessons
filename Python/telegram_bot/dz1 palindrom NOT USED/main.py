@@ -1,10 +1,12 @@
 import json
+import time
+import base64
 import telebot
 import re
 
 config = {
     "name": "",
-    "token": "TOKEN"
+    "token": "5887337428:AAFRKUrVND6fjISP5DHOdzTadUG2SSK-z-8"
 }
 
 agent_ghost = telebot.TeleBot(config["token"])
@@ -42,6 +44,7 @@ keyboard_all.add(telebot.types.KeyboardButton("регистрация".title()),
                  telebot.types.KeyboardButton("калькулятор".title()),
                  telebot.types.KeyboardButton("lucky number".capitalize()),
                  telebot.types.KeyboardButton("статистика".title()),
+                 telebot.types.KeyboardButton("кодировать фото".capitalize()),
                  telebot.types.KeyboardButton("выйти с аккаунта".capitalize()))
 
 keyboard_statistic = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -67,70 +70,92 @@ def start(message):
             if i.get('user_id') == message.from_user.id:
                 if i.get('lvlrights') == 1:
                     agent_ghost.send_message(message.chat.id, "Выбери действие", reply_markup=keyboard_lvl_1)
+                    break
                 elif i.get('lvlrights') == 2:
                     agent_ghost.send_message(message.chat.id, "Выбери действие", reply_markup=keyboard_lvl_2)
+                    break
                 elif i.get('lvlrights') == 10:
                     agent_ghost.send_message(message.chat.id, "Выбери действие", reply_markup=keyboard_all)
+                    break
 
 
 # принимаем текст и делаем вывод
 @agent_ghost.message_handler(content_types=["text"])
 def get_text(message):
-    global userid
-    global lvlright
     userid = 0
     lvlright = 0
+    timein = 0
+    username = ""
     with open("reg.json", "r") as file:
         all_users = json.load(file)
     for i in all_users.get('musicbot'):
         if i.get('user_id') == message.from_user.id:
             userid = i.get('user_id')
             lvlright = i.get('lvlrights')
+            timein = i.get('timein')
+            break
     if message.text == "hi":
-        agent_ghost.send_message(message.chat.id, "hello " + message.from_user.username)
-    elif message.text.lower() == "палиндром":
-        if userid == message.from_user.id and lvlright >= 1:
-            agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Ну ка давай сюда слово, сейчас я его проверю на палиндром"), palindrome)
-        else:
-            agent_ghost.send_message(message.chat.id, "Доступа нет!")
-    elif message.text.lower() == "парное":
-        if userid == message.from_user.id and lvlright >= 1:
-            agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Кидай цифру"), par)
-        else:
-            agent_ghost.send_message(message.chat.id, "Доступа нет!")
-    elif message.text.lower() == "калькулятор":
-        if userid == message.from_user.id and lvlright >= 2:
-            agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Пиши пример в одну строку"), calculator)
-        else:
-            agent_ghost.send_message(message.chat.id, "Доступа нет!")
-    elif message.text.lower() == "lucky number":
-        if userid == message.from_user.id and lvlright >= 1:
-            agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Пиши число, сейчас проверю"), lucky_number)
-        else:
-            agent_ghost.send_message(message.chat.id, "Доступа нет!")
-    elif message.text.lower() == "регистрация":
-        if userid == message.from_user.id and lvlright >= 1:
-            agent_ghost.send_message(message.chat.id, "Вы уже авторизованы!")
-        else:
-            agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Введите логин"), registration_login)
-    elif message.text.lower() == "авторизация":
-        if userid == message.from_user.id and lvlright >= 1:
-            agent_ghost.send_message(message.chat.id, "Вы уже авторизованы!")
-        else:
-            agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Введите логин"), authorization_login)
-    elif message.text.lower() == "статистика":
-        if userid == message.from_user.id and lvlright >= 2:
-            agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Что конкретно хотите вывести", reply_markup=keyboard_statistic), statistic_check_message)
-        else:
-            agent_ghost.send_message(message.chat.id, "Доступа нет!")
-    elif message.text.lower() == "выйти с аккаунта":
-        if userid == message.from_user.id and lvlright >= 1:
-            logout_account(message)
-            agent_ghost.send_message(message.chat.id, "Вы успешно вышли с аккаунта!", reply_markup=keyboard_start)
-        else:
-            agent_ghost.send_message(message.chat.id, "Вы не авторизованы!")
-    elif message.text.lower() == "остаться гостем":
-        agent_ghost.send_message(message.chat.id, "Теперь ты гость.\nФункционал гостя слишком ограничен, по-этому рекомендую зарегистрироваться или же авторизоваться.", reply_markup=keyboard_guest)
+        agent_ghost.send_message(message.chat.id, "Hi, " + message.from_user.first_name)
+    if time.time() - int(timein) <= 86400 or userid == 0:
+        if message.text.lower() == "палиндром":
+            if userid == message.from_user.id and lvlright >= 1:
+                agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Ну ка давай сюда слово, сейчас я его проверю на палиндром"), palindrome)
+            else:
+                agent_ghost.send_message(message.chat.id, "Доступа нет!")
+        elif message.text.lower() == "парное":
+            if userid == message.from_user.id and lvlright >= 1:
+                agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Кидай цифру"), par)
+            else:
+                agent_ghost.send_message(message.chat.id, "Доступа нет!")
+        elif message.text.lower() == "калькулятор":
+            if userid == message.from_user.id and lvlright >= 2:
+                agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Пиши пример в одну строку"), calculator)
+            else:
+                agent_ghost.send_message(message.chat.id, "Доступа нет!")
+        elif message.text.lower() == "lucky number":
+            if userid == message.from_user.id and lvlright >= 1:
+                agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Пиши число, сейчас проверю"), lucky_number)
+            else:
+                agent_ghost.send_message(message.chat.id, "Доступа нет!")
+        elif message.text.lower() == "кодировать фото":
+            if userid == message.from_user.id and lvlright >= 10:
+                agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Кидай фотку"), photo_code)
+            else:
+                agent_ghost.send_message(message.chat.id, "Доступа нет!")
+        elif message.text.lower() == "регистрация":
+            if userid == message.from_user.id and lvlright >= 1:
+                agent_ghost.send_message(message.chat.id, "Вы уже авторизованы!")
+            else:
+                agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Введите логин"), registration_login)
+        elif message.text.lower() == "авторизация":
+            if userid == message.from_user.id and lvlright >= 1:
+                agent_ghost.send_message(message.chat.id, "Вы уже авторизованы!")
+            else:
+                agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Введите логин"), authorization_login)
+        elif message.text.lower() == "статистика":
+            if userid == message.from_user.id and lvlright >= 2:
+                agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Что конкретно хотите вывести", reply_markup=keyboard_statistic), statistic_check_message)
+            else:
+                agent_ghost.send_message(message.chat.id, "Доступа нет!")
+        elif message.text.lower() == "выйти с аккаунта":
+            if userid == message.from_user.id and lvlright >= 1:
+                logout_account(message)
+                agent_ghost.send_message(message.chat.id, "Вы успешно вышли с аккаунта!", reply_markup=keyboard_start)
+            else:
+                agent_ghost.send_message(message.chat.id, "Вы не авторизованы!")
+        elif message.text.lower() == "остаться гостем":
+            agent_ghost.send_message(message.chat.id, "Теперь ты гость.\nФункционал гостя слишком ограничен, по-этому рекомендую зарегистрироваться или же авторизоваться.", reply_markup=keyboard_guest)
+    else:
+        with open("reg.json", "r") as file:
+            all_users = json.load(file)
+        for i in all_users.get('musicbot'):
+            if i.get('userid') == message.from_user.id:
+                all_users['musicbot'][i]['userid'] = 0
+                username = i.get('name')
+                break
+        with open('reg.json', "w") as file:
+            json.dump(all_users, file)
+        agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, f"Уважаемый {username}, для безопасности ваших данных требуется повторная авторизация\n\nВведите логин", reply_markup=keyboard_start), authorization_login)
 
 
 # функция выхода из аккаунта (по факту смена user_id на None)
@@ -140,26 +165,30 @@ def logout_account(message):
     for i in range(len(all_info.get('musicbot'))):
         if all_info['musicbot'][i]['user_id'] == message.from_user.id:
             all_info['musicbot'][i]['user_id'] = 0
+            break
     with open("reg.json", "w") as file:
         return json.dump(all_info, file)
 
 
 # функция регистрации с проверкой на наличие логина в БД (json файле)
 def registration_login(message):
-    def check_login(login_var):
-        with open("reg.json", "r") as file:
-            all_info = json.load(file)
-        for i in all_info.get("musicbot"):
-            if login_var == i.get('login'):
-                return False
-        return True
-    global login
-    login = message.text
-    if check_login(login):
-        agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Введите пароль"), registration_password)
-        return login
-    else:
-        agent_ghost.send_message(message.chat.id, f"Логин \"{login}\" уже зарегистрирован!")
+
+    # def check_login(login_var):
+    #     with open("reg.json", "r") as file:
+    #         all_info = json.load(file)
+    #     for i in all_info.get("musicbot"):
+    #         if login_var == i.get('login'):
+    #             return False
+    #     return True
+    # login = message.text
+    # with open("reg.json", 'r') as file:
+    #     all_info = json.load(file)
+    #
+    # if check_login(login):
+    #     agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Введите пароль"), registration_password)
+    #     return login
+    # else:
+    #     agent_ghost.send_message(message.chat.id, f"Логин \"{login}\" уже зарегистрирован!")
 
 
 # продолжение регистрации если все True, ввод пароля
@@ -175,7 +204,7 @@ def registration_name(message):
     name = message.text
     with open("reg.json", "r") as file:
         var_for_edit = json.load(file)
-    var_for_edit.get('musicbot').append({"login": login.lower(), "password": password, "name": name.title(), "lvlrights": 1, "user_id": message.from_user.id})
+    var_for_edit.get('musicbot').append({"login": login.lower(), "password": password, "name": name.title(), "lvlrights": 1, "user_id": message.from_user.id, "timein": int(time.time())})
     with open("reg.json", "w") as file:
         json.dump(var_for_edit, file)
     return agent_ghost.send_message(message.chat.id, "Успешная регистрация!", reply_markup=keyboard_lvl_1)
@@ -197,6 +226,7 @@ def authorization_password(message):
         if login_search == all_info.get('musicbot')[i].get("login"):
             if password_search == all_info.get('musicbot')[i].get("password"):
                 all_info['musicbot'][i]['user_id'] = message.from_user.id
+                all_info['musicbot'][i]['timein'] = int(time.time())
                 with open("reg.json", "w") as file:
                     json.dump(all_info, file)
                 if all_info.get('musicbot')[i].get('lvlrights') == 1:
@@ -217,10 +247,13 @@ def statistic_check_message(message):
             if i.get('user_id') == message.from_user.id:
                 if i.get('lvlrights') == 1:
                     agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Ты в меню", reply_markup=keyboard_lvl_1), get_text)
+                    break
                 elif i.get('lvlrights') == 2:
                     agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Ты в меню", reply_markup=keyboard_lvl_2), get_text)
+                    break
                 elif i.get('lvlrights') == 10:
                     agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Ты в меню", reply_markup=keyboard_all), get_text)
+                    break
     else:
         global message_user
         message_user = message.text
@@ -373,6 +406,19 @@ def palindrome(message):
             return agent_ghost.send_message(message.chat.id, "Это слово - палиндром")
         else:
             return agent_ghost.send_message(message.chat.id, "Не является палиндромом")
+
+
+# функция кодировки фото
+def photo_code(message):
+    file_info = agent_ghost.get_file(message.photo[-1].file_id)
+    downloaded_file = agent_ghost.download_file(file_info.file_path)
+    with open('photo.png', 'wb') as photo:
+        photo.write(downloaded_file)
+    with open('photo.png', 'rb') as photo:
+        photo_coding = base64.b64encode(photo.read()).decode('utf-8')
+    with open('photo.txt', "w") as file:
+        file.write(photo_coding)
+    return agent_ghost.send_document(message.chat.id, open("photo.txt", "r"))
 
 
 # agent_ghost.polling(none_stop=True, interval=0)

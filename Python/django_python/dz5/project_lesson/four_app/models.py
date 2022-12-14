@@ -1,3 +1,5 @@
+import base64
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
@@ -12,6 +14,12 @@ class Department(models.Model):
 
 class Examination(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    image = models.ImageField(upload_to="images/")
+    image_base64 = models.CharField(max_length=100000, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.image_base64 = base64.b64encode(self.image.read()).decode("utf-8")
+        super(Examination, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.name}"
@@ -49,6 +57,10 @@ class DoctorsExamination(models.Model):
     doctorId = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True)
     examinationId = models.ForeignKey(Examination, on_delete=models.SET_NULL, null=True)
     wardId = models.ForeignKey(Ward, on_delete=models.SET_NULL, null=True)
+
+    def clean(self):
+        if self.starttime > self.endtime:
+            raise ValidationError("Incorrect exam start and end time")
 
     def __str__(self):
         return f"{self.doctorId} - {self.starttime} : {self.endtime}"
