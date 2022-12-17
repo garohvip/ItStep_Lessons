@@ -82,8 +82,7 @@ keyboard_statistic.add(telebot.types.KeyboardButton("Всю информацию
 @agent_ghost.message_handler(commands=["start", "buttons"])
 def start(message):
     if message.text == "/start":
-        agent_ghost.send_message(message.chat.id, "Привет. Для работы бота нужно быть зарегистрированным.\n\nВыберите "
-                                                  "ниже действие:", reply_markup=keyboard_start)
+        agent_ghost.send_message(message.chat.id, "Привет. Для работы бота нужно быть зарегистрированным.\n\nВыберите ниже действие:", reply_markup=keyboard_start)
     elif message.text == "/buttons":
         with open("reg.json", "r") as file:
             all_info = json.load(file)
@@ -103,8 +102,7 @@ def start(message):
 # принимаем текст и делаем вывод
 @agent_ghost.message_handler(content_types=["text"])
 def get_text(message):
-    all_commands_for_quest_and_lvl_10 = ["палиндром", "парное", "калькулятор", "lucky number", "статистика",
-                                         "кодировать фото", "выйти с аккаунта"]
+    all_commands_for_quest_and_lvl_10 = ["палиндром", "парное", "калькулятор", "lucky number", "статистика", "кодировать фото", "выйти с аккаунта"]
     text = message.text.lower()
     lvl_right = 0
     time_in = 0
@@ -121,60 +119,40 @@ def get_text(message):
             break
     if lvl_right == 0 and in_online is False and time_in == 0:
         if text == "остаться гостем":
-            agent_ghost.send_message(message.chat.id, "Теперь Вы гость.\nФункционал гостя слишком ограничен, по-этому "
-                                                      "рекомендую зарегистрироваться или же "
-                                                      "авторизоваться", reply_markup=keyboard_guest)
+            agent_ghost.send_message(message.chat.id, "Теперь Вы гость.\nФункционал гостя слишком ограничен, по-этому рекомендую зарегистрироваться или же авторизоваться", reply_markup=keyboard_guest)
         elif text == "hi":
             agent_ghost.send_message(message.chat.id, "Hi, " + message.from_user.first_name)
         elif text == "авторизация":
-            agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Введите логин", reply_markup=keyboard_cancel),
-                                                   authorization_login)
+            agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Введите логин", reply_markup=keyboard_cancel), authorization_login)
         elif text == "регистрация":
-            agent_ghost.register_next_step_handler(
-                agent_ghost.send_message(message.chat.id, "Введите логин", reply_markup=keyboard_cancel),
-                registration_login)
+            agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Введите логин", reply_markup=keyboard_cancel), registration_login)
         elif text == "забыли пароль?":
-            agent_ghost.register_next_step_handler(
-                agent_ghost.send_message(message.chat.id, "Введите id своего телеграм-аккаунта",
-                                         reply_markup=keyboard_cancel), restore_user_data_check)
+            agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Введите id своего телеграм-аккаунта", reply_markup=keyboard_cancel), restore_user_data_check)
         elif text in all_commands_for_quest_and_lvl_10:
-            agent_ghost.send_message(message.chat.id,
-                                     "Команда для Вас не доступна. Зарегистрируйтесь или авторизуйтесь для ее использования",
-                                     reply_markup=keyboard_start)
+            agent_ghost.send_message(message.chat.id, "Команда для Вас не доступна. Зарегистрируйтесь или авторизуйтесь для ее использования", reply_markup=keyboard_start)
         else:
             agent_ghost.send_message(message.chat.id, "Команда не найдена")
     elif lvl_right >= 1 and in_online is True:
         if time.time() - int(time_in) <= 86400:
             if text == "палиндром":
-                agent_ghost.register_next_step_handler(
-                    agent_ghost.send_message(message.chat.id, "Напишите слово", reply_markup=keyboard_cancel),
-                    palindrome)
+                agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Напишите слово", reply_markup=keyboard_cancel), palindrome)
             elif text == "парное":
-                agent_ghost.register_next_step_handler(
-                    agent_ghost.send_message(message.chat.id, "Кидай цифру", reply_markup=keyboard_cancel), par)
+                agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Кидай цифру", reply_markup=keyboard_cancel), par)
             elif text == "калькулятор":
                 if lvl_right >= 2:
-                    agent_ghost.register_next_step_handler(
-                        agent_ghost.send_message(message.chat.id, "Пиши пример в одну строку",
-                                                 reply_markup=keyboard_cancel), calculator)
+                    agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Пиши пример в одну строку", reply_markup=keyboard_cancel), calculator)
                 else:
                     agent_ghost.send_message(message.chat.id, "Доступа нет!")
             elif text == "lucky number":
-                agent_ghost.register_next_step_handler(
-                    agent_ghost.send_message(message.chat.id, "Пиши число, сейчас проверю",
-                                             reply_markup=keyboard_cancel), lucky_number)
+                agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Пиши число, сейчас проверю", reply_markup=keyboard_cancel), lucky_number)
             elif text == "кодировать фото":
                 if lvl_right >= 10:
-                    agent_ghost.register_next_step_handler(
-                        agent_ghost.send_message(message.chat.id, "Кидай фотку", reply_markup=keyboard_cancel),
-                        photo_code)
+                    agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Кидай фотку", reply_markup=keyboard_cancel), photo_code)
                 else:
                     agent_ghost.send_message(message.chat.id, "Доступа нет!")
             elif text == "статистика":
                 if lvl_right >= 2:
-                    agent_ghost.register_next_step_handler(
-                        agent_ghost.send_message(message.chat.id, "Что конкретно хотите вывести",
-                                                 reply_markup=keyboard_statistic), statistic_check_message)
+                    agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Что конкретно хотите вывести", reply_markup=keyboard_statistic), statistic_check_message)
                 else:
                     agent_ghost.send_message(message.chat.id, "Доступа нет!")
             elif text == "регистрация":
@@ -184,38 +162,25 @@ def get_text(message):
             elif text == "забыли пароль?":
                 agent_ghost.send_message(message.chat.id, "Вы уже авторизованы!")
             elif text == "выйти с аккаунта":
-                agent_ghost.register_next_step_handler(
-                    agent_ghost.send_message(message.chat.id, "Вы действительно хотите выйти с аккаунта?",
-                                             reply_markup=keyboard_yes_or_no), logout_account)
+                agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Вы действительно хотите выйти с аккаунта?", reply_markup=keyboard_yes_or_no), logout_account)
             else:
                 agent_ghost.send_message(message.chat.id, "Команда не найдена!")
         else:
             auto_logout_account(message)
-            agent_ghost.send_message(message.chat.id,
-                                     f"Уважаемый {username}, для безопасности ваших данных требуется повторная авторизация",
-                                     reply_markup=keyboard_start)
+            agent_ghost.send_message(message.chat.id, f"Уважаемый {username}, для безопасности ваших данных требуется повторная авторизация", reply_markup=keyboard_start)
     else:
         if text == "остаться гостем":
-            agent_ghost.send_message(message.chat.id, "Теперь Вы гость.\nФункционал гостя слишком ограничен, по-этому "
-                                                      "рекомендую зарегистрироваться или же "
-                                                      "авторизоваться", reply_markup=keyboard_guest)
+            agent_ghost.send_message(message.chat.id, "Теперь Вы гость.\nФункционал гостя слишком ограничен, по-этому рекомендую зарегистрироваться или же авторизоваться", reply_markup=keyboard_guest)
         elif text == "hi":
             agent_ghost.send_message(message.chat.id, "Hi, " + message.from_user.first_name)
         elif text == "авторизация":
-            agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Введите логин", reply_markup=keyboard_cancel),
-                                                   authorization_login)
+            agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Введите логин", reply_markup=keyboard_cancel), authorization_login)
         elif text == "регистрация":
-            agent_ghost.register_next_step_handler(
-                agent_ghost.send_message(message.chat.id, "Введите логин", reply_markup=keyboard_cancel),
-                registration_login)
+            agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Введите логин", reply_markup=keyboard_cancel), registration_login)
         elif text == "забыли пароль?":
-            agent_ghost.register_next_step_handler(
-                agent_ghost.send_message(message.chat.id, "Введите id своего телеграм-аккаунта",
-                                         reply_markup=keyboard_cancel), restore_user_data_check)
+            agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Введите id своего телеграм-аккаунта", reply_markup=keyboard_cancel), restore_user_data_check)
         elif text in all_commands_for_quest_and_lvl_10:
-            agent_ghost.send_message(message.chat.id,
-                                     "Команда для Вас не доступна. Зарегистрируйтесь или авторизуйтесь для ее использования",
-                                     reply_markup=keyboard_start)
+            agent_ghost.send_message(message.chat.id, "Команда для Вас не доступна. Зарегистрируйтесь или авторизуйтесь для ее использования", reply_markup=keyboard_start)
         else:
             agent_ghost.send_message(message.chat.id, "Команда не найдена")
 
@@ -372,9 +337,7 @@ def registration_password(message):
 # продолжение регистрации, ввод имени
 def registration_name(message):
     if message.text.lower() == "отмена":
-        return agent_ghost.send_message(message.chat.id,
-                                        "Операция отмена. Если Вы захотите продолжить регистрацию по этому телеграм-аккаунту, то Вам нужно нажать \"Забыли пароль?\" в начальном меню",
-                                        reply_markup=keyboard_start)
+        return agent_ghost.send_message(message.chat.id, "Операция отмена. Если Вы захотите продолжить регистрацию по этому телеграм-аккаунту, то Вам нужно нажать \"Забыли пароль?\" в начальном меню", reply_markup=keyboard_start)
     else:
         with open("reg.json", "r") as reg:
             all_info = json.load(reg)
@@ -398,7 +361,7 @@ def authorization_login(message):
             all_info = json.load(reg)
         for i in all_info.get('musicbot'):
             if i.get('user_id') == message.from_user.id and i.get('login') == message.text.lower():
-                return agent_ghost.register_next_step_handler( agent_ghost.send_message(message.chat.id, "Введите пароль", reply_markup=keyboard_cancel), authorization_password)
+                return agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Введите пароль", reply_markup=keyboard_cancel), authorization_password)
         else:
             return agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Логин введен не верно либо логин не принадлежит этому телеграм-аккаунту.\n\nПопробуйте снова", reply_markup=keyboard_cancel), authorization_login)
 
@@ -813,6 +776,44 @@ def photo_code(message):
             return agent_ghost.send_document(message.chat.id, open("photo.txt", "r"), reply_markup=keyboard_all)
     elif message.content_type == "document":
         return agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Отправьте сжатое фото\nP.S. поставьте галочку при отправке фотографии", reply_markup=keyboard_cancel), photo_code)
+
+
+# def photo_send(message):
+#     lvl_right = 0
+#     with open("reg.json", "r") as reg:
+#         all_info = json.load(reg)
+#     for i in all_info.get('musicbot'):
+#         if i.get('user_id') == message.from_user.id:
+#             lvl_right = i.get('lvl_right')
+#             break
+#     if message.content_type == "text":
+#         if message.text.lower() == "отмена":
+#             if lvl_right == 1:
+#                 return agent_ghost.send_message(message.chat.id, "Операция отменена", reply_markup=keyboard_lvl_1)
+#             elif lvl_right == 2:
+#                 return agent_ghost.send_message(message.chat.id, "Операция отменена", reply_markup=keyboard_lvl_2)
+#             elif lvl_right == 10:
+#                 return agent_ghost.send_message(message.chat.id, "Операция отменена", reply_markup=keyboard_all)
+#         else:
+#             return agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Я принимаю только фото!\nP.S. или слово \"отмена\".", reply_markup=keyboard_cancel), photo_code)
+#     elif message.content_type == "photo":
+#         file_info = agent_ghost.get_file(message.photo[-1].file_id)
+#         downloaded_file = agent_ghost.download_file(file_info.file_path)
+#         with open('photo.png', 'wb') as photo:
+#             photo.write(downloaded_file)
+#         with open('photo.png', 'rb') as photo:
+#             photo_coding = base64.b64encode(photo.read()).decode('utf-8')
+#         with open('photo.txt', "w") as file:
+#             file.write(photo_coding)
+#         if lvl_right == 1:
+#             return agent_ghost.send_document(message.chat.id, open("photo.txt", "r"), reply_markup=keyboard_lvl_1)
+#         elif lvl_right == 2:
+#             return agent_ghost.send_document(message.chat.id, open("photo.txt", "r"), reply_markup=keyboard_lvl_2)
+#         elif lvl_right == 10:
+#             return agent_ghost.send_document(message.chat.id, open("photo.txt", "r"), reply_markup=keyboard_all)
+#     elif message.content_type == "document":
+#         return agent_ghost.register_next_step_handler(agent_ghost.send_message(message.chat.id, "Отправьте сжатое фото\nP.S. поставьте галочку при отправке фотографии", reply_markup=keyboard_cancel), photo_code)
+
 
 
 # agent_ghost.polling(none_stop=True, interval=0)
