@@ -3,11 +3,18 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator, RegexValidator
 
 
+class Categirie(models.Model):
+    name = models.CharField(max_length=30, unique=True)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 class Book(models.Model):
     nameBook = models.CharField(max_length=100)
     author = models.CharField(max_length=50)
     yearCreate = models.DateField()
-    style = models.CharField(max_length=100, choices=(("Horror", "Horror"), ("Drama", "Drama")), default="Drama")
+    style = models.ForeignKey(Categirie, on_delete=models.SET_NULL, null=True)
     public = models.CharField(max_length=100)
     available = models.BooleanField(default=True)
     img = models.ImageField(upload_to="images/")

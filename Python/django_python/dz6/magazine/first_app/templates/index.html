@@ -4,8 +4,36 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
+        .year-filter {
+            margin-top: 25px;
+        }
+        .item-checkbox-categories {
+            margin-top: 25px;
+        }
+        .item-checkbox-categories:first-child {
+            margin-top: 0;
+        }
+        .item-checkbox-categories:hover {
+            text-decoration: underline;
+        }
+        .link-year {
+            text-decoration: none;
+            font-weight: bold;
+            color: #F46400;
+            font-size: 20px;
+        }
+        .link-categories {
+            text-decoration: none;
+            font-weight: bold;
+            color: #48C5E4;
+            font-size: 20px;
+        }
+        aside {
+            float: left;
+        }
         body {
             font-family: sans-serif;
+            background-color: #673A77;
         }
         .cap {
             display: flex;
@@ -52,6 +80,7 @@
             height: 440px;
             border-style: solid;
             margin-left: 10px;
+            background-color: #F4D4FF;
         }
         .link_picture {
             position: relative;
@@ -72,6 +101,31 @@
     </style>
 </head>
 <body>
+<header>
+
+</header>
+<aside>
+    <div class="all-checkbox-categories">
+        {% for categ in all_categories %}
+        <div class="item-checkbox-categories">
+            <a class="link-categories" href="http://127.0.0.1:8000/books/{{ categ.name }}">{{ categ.name }}</a><br />
+<!--            <input type="checkbox" id="checkbox-categ">-->
+<!--            <label for="checkbox-categ" title="{{ categ.name }}">-->
+<!--                {{ categ.name }}-->
+<!--            </label><br />-->
+        </div>
+        {% endfor %}
+    </div>
+    <div class="year-filter">
+        <div class="item-checkbox-categories">
+            <a class="link-year" href="http://127.0.0.1:8000/books/before_1880"><1880 year</a>
+        </div>
+        <div class="item-checkbox-categories">
+            <a class="link-year" href="http://127.0.0.1:8000/books/after_1880">1880 year></a>
+        </div>
+    </div>
+</aside>
+<section>
     <div class="cap">
         {% for i in content %}
         <div class="cap_div">
@@ -91,5 +145,6 @@
         </div>
         {% endfor %}
     </div>
+</section>
 </body>
 </html>
