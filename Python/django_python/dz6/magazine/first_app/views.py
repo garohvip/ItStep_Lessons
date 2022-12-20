@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from first_app.models import *
 import datetime
+import csv
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def books(request):
@@ -17,6 +19,9 @@ def books_year(request, flag):
     elif flag == "after_1880":
         content = Book.objects.filter(yearCreate__gte=datetime.date(1880, 1, 1))
         return render(template_name='index.html', request=request, context={'content': content, 'all_categories': all_categories})
-    elif flag == flag:
-        content = Book.objects.filter(style__name=flag)
-        return render(template_name='index.html', request=request, context={'content': content, 'all_categories': all_categories})
+    for i in all_categories:
+        if str(i) == flag:
+            content = Book.objects.filter(style__name=flag)
+            return render(template_name='index.html', request=request, context={'content': content, 'all_categories': all_categories})
+    else:
+        return render(template_name='notfound.html', request=request)
