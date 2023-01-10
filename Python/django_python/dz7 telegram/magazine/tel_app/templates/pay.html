@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title>shdgfa</title>
+    <link rel="stylesheet" href="../static/pay.css">
+    <script src="../static/pay.js"></script>
+</head>
+
+<body>
+<article>
+    <div class="article">
+        <div class="card">
+            <div class="card-line">
+                <p class="card-line-text">CREDIT CARD DETAILS</p>
+            </div>
+            <form class="credit-card" method="POST">
+                {% csrf_token %}
+                <div class="card-number">
+                    <label><p class="form-text">{{ card.number.label }}</p>{{ card.number }}</label>
+                </div>
+                <div class="card-name">
+                    <label><p class="form-text">{{ card.name.label }}</p>{{ card.name }}</label>
+                </div>
+                <div class="card-date">
+                    <label for="id_date"><p class="form-text">{{ card.date.label }}</p>{{ card.date }}</label>
+                </div>
+                <div class="card-cvv">
+                    <label><p class="form-text">{{ card.cvv.label }}</p>{{ card.cvv }}</label>
+                </div>
+                <br/>
+                <input type="submit" value="Send">
+            </form>
+        </div>
+    </div>
+</article>
+</body>
+</html>
